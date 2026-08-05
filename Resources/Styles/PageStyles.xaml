@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+
+    <!--Font sizes-->
+    <x:Double x:Key="baseFs">15</x:Double>
+    <x:Double x:Key="boardTitleFs">30</x:Double>
+    <x:Double x:Key="boardDescriptionFs">15</x:Double>
+    <x:Double x:Key="headerFs">20</x:Double>
+    <x:Double x:Key="groupTitleFs">18</x:Double>
+    <x:Double x:Key="groupSubtitleFs">12</x:Double>
+    <x:Double x:Key="cardTitleFs">13</x:Double>
+    <x:Double x:Key="cardDescriptionFs">12</x:Double>
+    <x:Double x:Key="cardDateFs">11</x:Double>
+
+    <!--Color variables-->
+    <Color x:Key="darkTextColor">#B39DDB</Color>
+    <Color x:Key="lightTextColor">#3F2A56</Color>
+    <Color x:Key="lightBorderStrokeColor">#EEE6FA</Color>
+
+    <toolkit:AppThemeColor Light="{StaticResource lightTextColor}" Dark="{StaticResource darkTextColor}" x:Key="labelDynamicTextColor" />
+    <toolkit:AppThemeColor Light="{StaticResource lightBorderStrokeColor}" Dark="{StaticResource OffBlack}" x:Key="borderDynamicStrokeColor" />
+    <toolkit:AppThemeColor Light="White" Dark="#19191a" x:Key="groupDynamicBackgroundColor" />
+    <toolkit:AppThemeColor Light="{StaticResource OffWhite}" Dark="{StaticResource OffBlack}" x:Key="cardDynamicBackgroundColor" />
+
+
+    <!--Labels-->
+    <Style x:Key="baseLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="{StaticResource baseFs}" />
+    </Style>
+
+    <Style x:Key="boardTitleLabelStyle" TargetType="Label">
+        <Setter Property="Margin" Value="0, 10, 0, 0"/>
+        <Setter Property="TextColor" Value="{toolkit:AppThemeResource labelDynamicTextColor}" />
+        <Setter Property="FontSize" Value="{StaticResource boardTitleFs}" />
+        <Setter Property="FontAttributes" Value="Bold" />
+    </Style>
+
+    <Style x:Key="boardDescriptionLabelStyle" TargetType="Label">
+        <Setter Property="Opacity" Value="0.8"/>
+        <Setter Property="FontSize" Value="{StaticResource boardDescriptionFs}" />
+    </Style>
+
+    <Style x:Key="groupTitleLabelStyle" TargetType="Label">
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="FontSize" Value="{StaticResource groupTitleFs}" />
+    </Style>
+
+    <Style x:Key="groupSubTitleLabelStyle" TargetType="Label">
+        <Setter Property="Opacity" Value="0.8"/>
+        <Setter Property="FontSize" Value="{StaticResource groupSubtitleFs}" />
+    </Style>
+
+    <Style x:Key="cardTitleLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="{StaticResource cardTitleFs}" />
+        <Setter Property="TextColor" Value="{toolkit:AppThemeResource labelDynamicTextColor}"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+    </Style>
+
+    <Style x:Key="cardDescriptionLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="{StaticResource cardDescriptionFs}" />
+    </Style>
+
+    <Style x:Key="cardDateLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="{StaticResource cardDateFs}" />
+        <Setter Property="TextColor" Value="Gray"/>
+    </Style>
+
+    <!--Border-->
+    <Style x:Key="groupBorderStyle" TargetType="Border">
+        <Setter Property="WidthRequest" Value="320"/>
+        <Setter Property="Padding" Value="10"/>
+        <Setter Property="Stroke" Value="{toolkit:AppThemeResource borderDynamicStrokeColor}"/>
+        <Setter Property="StrokeThickness" Value="1"/>
+        <Setter Property="BackgroundColor" Value="{toolkit:AppThemeResource groupDynamicBackgroundColor}"/>
+        <Setter Property="StrokeShape">
+            <RoundRectangle CornerRadius="10"/>
+        </Setter>
+    </Style>
+
+    <Style x:Key="cardBorderStyle" TargetType="Border">
+        <Setter Property="Margin" Value="0,0,0,10"/>
+        <Setter Property="Padding" Value="12"/>
+        <Setter Property="BackgroundColor" Value="{toolkit:AppThemeResource cardDynamicBackgroundColor}"/>
+        <Setter Property="Stroke" Value="{toolkit:AppThemeResource borderDynamicStrokeColor}"/>
+        <Setter Property="StrokeThickness" Value="1"/>
+        <Setter Property="StrokeShape">
+            <RoundRectangle CornerRadius="10"/>
+        </Setter>
+    </Style>
+
+    <!--Buttons-->
+    <Style x:Key="tabButtonStyle" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="BorderColor" Value="{toolkit:AppThemeResource labelDynamicTextColor}"/>
+        <Setter Property="BorderWidth" Value="1"/>
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="Padding" Value="12,8"/>
+        <Setter Property="TextColor" Value="{toolkit:AppThemeResource labelDynamicTextColor}"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+        <Setter Property="FontSize" Value="{StaticResource baseFs}"/>
+    </Style>
+
+    <Style x:Key="newCardButtonStyle" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="Padding" Value="12,8"/>
+        <Setter Property="TextColor" Value="{toolkit:AppThemeResource labelDynamicTextColor}"/>
+        <Setter Property="FontSize" Value="{StaticResource baseFs}"/>
+    </Style>
+</ResourceDictionary>

@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace Quadro_de_pendências
+namespace Quadro_de_pendencias
 {
     public class Program
     {

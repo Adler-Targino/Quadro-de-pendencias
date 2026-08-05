@@ -1,0 +1,247 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Quadro_de_pendencias.Views.MainPage"
+             xmlns:viewmodels="clr-namespace:Quadro_de_pendencias.ViewModels"
+             xmlns:models="clr-namespace:Quadro_de_pendencias.Models"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:DataType="viewmodels:BoardViewModel">
+
+    <Grid RowDefinitions="*,Auto">
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="15">
+
+            <!--#region Cabeçalho -->
+            <Grid
+                RowDefinitions="Auto, Auto"
+                ColumnDefinitions="*, Auto">
+
+                <Label
+                    Grid.Row="0"
+                    Grid.ColumnSpan="2"
+                    Style="{StaticResource boardTitleLabelStyle}"
+                    Text="{Binding Board.Title}"/>
+
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Style="{StaticResource boardDescriptionLabelStyle}"
+                    Text="{Binding Board.Description}"/>
+
+                <HorizontalStackLayout
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Spacing="-10"
+                    VerticalOptions="Center">
+                    <CheckBox
+                        Scale="0.8"
+                        VerticalOptions="Center" />
+                    <Label
+                        Text="Ocultar concluídos"
+                        Style="{StaticResource cardDescriptionLabelStyle}"
+                        VerticalOptions="Center" />
+
+                </HorizontalStackLayout>
+            </Grid>
+            <!--#endregion-->
+
+            <!--#region Área de grupos -->
+            <CollectionView
+                ItemsSource="{Binding Groups}"
+                HorizontalScrollBarVisibility="Always">
+
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal"
+                                       ItemSpacing="10"/>
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="viewmodels:CardGroupViewModel">
+                        <Border Style="{StaticResource groupBorderStyle}">
+
+                            <Grid RowDefinitions="4,Auto,*,Auto">
+
+                                <BoxView
+                                    HeightRequest="4"
+                                    Color="Orange" />
+
+                                <!-- Cabeçalho -->
+                                <VerticalStackLayout
+                                    Grid.Row="1"
+                                    Padding="12"
+                                    Spacing="4">
+
+                                    <Grid
+                                        RowDefinitions="Auto, Auto"
+                                        ColumnDefinitions="Auto, *,Auto">
+
+                                        <Label
+                                            Style="{StaticResource groupTitleLabelStyle}"
+                                            Grid.Row="0"
+                                            Grid.Column="0"
+                                            Grid.ColumnSpan="2"
+                                            Text="{Binding Name}"/>
+
+                                        <Label
+                                            Style="{StaticResource groupSubTitleLabelStyle}"
+                                            Grid.Row="1"
+                                            Grid.Column="0"
+                                            Text="{Binding Cards.Count, StringFormat='Cards: {0} -'}"
+                                            VerticalOptions="Center" />
+
+                                        <Label
+                                            Style="{StaticResource groupSubTitleLabelStyle}"
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            Text=" 10% concluido"
+                                            VerticalOptions="Center" />
+
+                                    </Grid>
+
+                                </VerticalStackLayout>
+
+                                <!-- Lista de Cards -->
+                                <CollectionView
+                                    Grid.Row="2"
+                                    Margin="12,0"
+                                    ItemsSource="{Binding Cards}"
+                                    SelectionMode="None">
+
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate
+                                            x:DataType="models:CardModel">
+
+                                            <Border Style="{StaticResource cardBorderStyle}">
+
+                                                <Grid
+                                                    RowDefinitions="Auto, Auto, Auto"
+                                                    ColumnDefinitions="Auto, *"
+                                                    RowSpacing="6">
+
+                                                    <CheckBox
+                                                        Grid.Row="0"
+                                                        Grid.Column="0"
+                                                        IsChecked="{Binding Completed}"/>
+                                                    <Label
+                                                        Grid.Row="0"
+                                                        Grid.Column="1"
+                                                        Style="{StaticResource cardTitleLabelStyle}"
+                                                        Text="{Binding Title}"
+                                                        />
+
+                                                    <Label
+                                                        Grid.Row="1"
+                                                        Grid.Column="1"
+                                                        Style="{StaticResource cardDescriptionLabelStyle}"
+                                                        Text="{Binding Description}"
+                                                        />
+
+                                                    <Grid
+                                                        ColumnDefinitions="*,Auto,Auto"
+                                                        Grid.Row="2"
+                                                        Grid.Column="1">
+
+                                                        <Label
+                                                            Style="{StaticResource cardDateLabelStyle}"
+                                                            Text="{Binding DueDate, StringFormat='Vence: {0:dd/MM/yyyy}'}"
+                                                            />
+
+                                                        <Border
+                                                            Grid.Column="1"
+                                                            StrokeThickness="0"
+                                                            Padding="2">
+
+                                                            <Border.GestureRecognizers>
+                                                                <TapGestureRecognizer
+                                                                    Command="{Binding EditCommand}" />
+                                                            </Border.GestureRecognizers>
+
+                                                            <Image
+                                                                Source="edit.png"
+                                                                WidthRequest="15"
+                                                                HeightRequest="15"
+                                                                Aspect="AspectFit">
+                                                                <Image.Behaviors>
+                                                                    <toolkit:IconTintColorBehavior
+                                                                        TintColor="{toolkit:AppThemeResource labelDynamicTextColor}" />
+                                                                </Image.Behaviors>
+                                                            </Image>
+                                                        </Border>
+
+                                                        <Border
+                                                            Grid.Column="2"
+                                                            StrokeThickness="0"
+                                                            Padding="2">
+
+                                                            <Border.GestureRecognizers>
+                                                                <TapGestureRecognizer
+                                                                    Command="{Binding EditCommand}" />
+                                                            </Border.GestureRecognizers>
+
+                                                            <Image
+                                                                Source="trash.png"
+                                                                WidthRequest="15"
+                                                                HeightRequest="15"
+                                                                Aspect="AspectFit">
+                                                                <Image.Behaviors>
+                                                                    <toolkit:IconTintColorBehavior
+                                                                        TintColor="{toolkit:AppThemeResource labelDynamicTextColor}" />
+                                                                </Image.Behaviors>
+                                                            </Image>
+                                                        </Border>
+                                                    </Grid>
+
+
+                                                </Grid>
+
+                                            </Border>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+
+                                </CollectionView>
+
+
+                                <Button
+                                    Grid.Row="3"
+                                    Style="{StaticResource newCardButtonStyle}"
+                                    Text="+ Novo card"
+                                    Command="{Binding AddCardCommand}"
+                                    CommandParameter="0" />
+                            </Grid>
+
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+            <!--#endregion-->
+
+        </VerticalStackLayout>
+
+        <!--Rodapé-->
+        <HorizontalStackLayout
+            Grid.Row="1"
+            Spacing="10"
+            Padding="10">
+
+            <Button
+                Style="{StaticResource tabButtonStyle}"
+                Text="Board 1"
+                Command="{Binding SelectBoardCommand}"
+                CommandParameter="0" />
+
+            <Button
+                Style="{StaticResource tabButtonStyle}"
+                Text="Board 2"
+                Command="{Binding SelectBoardCommand}"
+                CommandParameter="1" />
+
+            <Button
+                Style="{StaticResource tabButtonStyle}"
+                Text="+ Novo quadro"
+                Command="{Binding AddBoardCommand}" />
+
+        </HorizontalStackLayout>
+    </Grid>
+</ContentPage>

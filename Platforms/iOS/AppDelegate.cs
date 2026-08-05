@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace Quadro_de_pendências
+namespace Quadro_de_pendencias
 {
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate

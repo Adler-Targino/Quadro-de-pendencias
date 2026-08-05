@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace Quadro_de_pendências
+namespace Quadro_de_pendencias
 {
     [Application]
     public class MainApplication : MauiApplication

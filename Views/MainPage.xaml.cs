@@ -1,13 +1,12 @@
-﻿using Quadro_de_pendencias.Interfaces;
-using Quadro_de_pendencias.ViewModels;
+﻿using Quadro_de_pendencias.ViewModels;
 
 namespace Quadro_de_pendencias.Views
 {
     public partial class MainPage : ContentPage
     {
-        private readonly BoardViewModel _viewModel;
+        private readonly MainPageViewModel _viewModel;
 
-        public MainPage(BoardViewModel viewModel)
+        public MainPage(MainPageViewModel viewModel)
         {
             InitializeComponent();
 

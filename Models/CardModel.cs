@@ -1,41 +1,19 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Quadro_de_pendencias.Models.Enums;
+﻿using Quadro_de_pendencias.Models.Enums;
 
 namespace Quadro_de_pendencias.Models
 {
-    public partial class CardModel : ObservableObject
+    public class CardModel
     {
-        [ObservableProperty]
-        public partial Guid Id { get; set; } = Guid.NewGuid();
-        [ObservableProperty]
-        public partial Guid GroupId { get; set; }
-
-        [ObservableProperty]
-        public partial string Title { get; set; } = "";
-
-        [ObservableProperty]
-        public partial string? Description { get; set; }
-
-        [ObservableProperty]
-        public partial DateTime? DueDate { get; set; }
-
-        [ObservableProperty]
-        public partial bool Completed { get; set; }
-
-        [ObservableProperty]
-        public partial CardPriority Priority { get; set; } = CardPriority.Normal;
-
-        [ObservableProperty]
-        public partial CardStatus Status { get; set; } = CardStatus.Pending;
-
-        // Ordem dentro da coluna
-        [ObservableProperty]
-        public partial int Order { get; set; }
-
-        [ObservableProperty]
-        public partial DateTime CreatedAt { get; set; } = DateTime.Now;
-
-        [ObservableProperty]
-        public partial DateTime? UpdatedAt { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid GroupId { get; set; }
+        public string Title { get; set; } = "";
+        public string? Description { get; set; }
+        public DateTime? DueDate { get; set; }
+        public bool Completed { get; set; }
+        public CardPriority Priority { get; set; } = CardPriority.Normal;
+        public CardStatus Status { get; set; } = CardStatus.Pending;
+        public int Order { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime? UpdatedAt { get; set; }
     }
 }

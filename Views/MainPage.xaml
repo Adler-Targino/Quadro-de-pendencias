@@ -4,8 +4,14 @@
              x:Class="Quadro_de_pendencias.Views.MainPage"
              xmlns:viewmodels="clr-namespace:Quadro_de_pendencias.ViewModels"
              xmlns:models="clr-namespace:Quadro_de_pendencias.Models"
+             xmlns:converters="clr-namespace:Quadro_de_pendencias.Converters"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             x:DataType="viewmodels:BoardViewModel">
+             x:DataType="viewmodels:MainPageViewModel">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:TruncateStringConverter x:Key="TruncateStringConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <Grid RowDefinitions="*,Auto">
         <VerticalStackLayout
@@ -21,13 +27,13 @@
                     Grid.Row="0"
                     Grid.ColumnSpan="2"
                     Style="{StaticResource boardTitleLabelStyle}"
-                    Text="{Binding Board.Title}"/>
+                    Text="{Binding Title}"/>
 
                 <Label
                     Grid.Row="1"
                     Grid.Column="0"
                     Style="{StaticResource boardDescriptionLabelStyle}"
-                    Text="{Binding Board.Description}"/>
+                    Text="{Binding Description}"/>
 
                 <HorizontalStackLayout
                     Grid.Row="1"
@@ -48,7 +54,7 @@
 
             <!--#region Área de grupos -->
             <CollectionView
-                ItemsSource="{Binding Groups}"
+                ItemsSource="{Binding Board.Groups}"
                 HorizontalScrollBarVisibility="Always">
 
                 <CollectionView.ItemsLayout>
@@ -57,14 +63,14 @@
                 </CollectionView.ItemsLayout>
 
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="viewmodels:CardGroupViewModel">
+                    <DataTemplate x:DataType="viewmodels:GroupViewModel">
                         <Border Style="{StaticResource groupBorderStyle}">
 
                             <Grid RowDefinitions="4,Auto,*,Auto">
 
                                 <BoxView
                                     HeightRequest="4"
-                                    Color="Orange" />
+                                    Color="{Binding Group.Color}" />
 
                                 <!-- Cabeçalho -->
                                 <VerticalStackLayout
@@ -81,7 +87,31 @@
                                             Grid.Row="0"
                                             Grid.Column="0"
                                             Grid.ColumnSpan="2"
-                                            Text="{Binding Name}"/>
+                                            Text="{Binding Group.Name}"/>
+
+
+                                        <Border
+                                            Grid.Row="0"
+                                            Grid.Column="2"
+                                            Style="{StaticResource borderHover}">
+
+                                            <Border.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding DeleteGroupCommand}" />
+                                            </Border.GestureRecognizers>
+
+                                            <Image
+                                                Source="close.png"
+                                                Style="{StaticResource iconImageStyle}">
+
+                                                <Image.Behaviors>
+                                                    <toolkit:IconTintColorBehavior
+                                                        TintColor="{toolkit:AppThemeResource labelDynamicTextColor}" />
+                                                </Image.Behaviors>
+
+                                            </Image>
+
+                                        </Border>
 
                                         <Label
                                             Style="{StaticResource groupSubTitleLabelStyle}"
@@ -149,8 +179,7 @@
 
                                                         <Border
                                                             Grid.Column="1"
-                                                            StrokeThickness="0"
-                                                            Padding="2">
+                                                            Style="{StaticResource borderHover}">
 
                                                             <Border.GestureRecognizers>
                                                                 <TapGestureRecognizer
@@ -159,9 +188,7 @@
 
                                                             <Image
                                                                 Source="edit.png"
-                                                                WidthRequest="15"
-                                                                HeightRequest="15"
-                                                                Aspect="AspectFit">
+                                                                Style="{StaticResource iconImageStyle}">
                                                                 <Image.Behaviors>
                                                                     <toolkit:IconTintColorBehavior
                                                                         TintColor="{toolkit:AppThemeResource labelDynamicTextColor}" />
@@ -171,8 +198,7 @@
 
                                                         <Border
                                                             Grid.Column="2"
-                                                            StrokeThickness="0"
-                                                            Padding="2">
+                                                            Style="{StaticResource borderHover}">
 
                                                             <Border.GestureRecognizers>
                                                                 <TapGestureRecognizer
@@ -181,9 +207,8 @@
 
                                                             <Image
                                                                 Source="trash.png"
-                                                                WidthRequest="15"
-                                                                HeightRequest="15"
-                                                                Aspect="AspectFit">
+                                                                Style="{StaticResource iconImageStyle}">
+
                                                                 <Image.Behaviors>
                                                                     <toolkit:IconTintColorBehavior
                                                                         TintColor="{toolkit:AppThemeResource labelDynamicTextColor}" />
@@ -214,34 +239,50 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
 
+                <CollectionView.Footer>
+                    <Button
+                        Style="{StaticResource newGroupButtonStyle}"
+                        Text="+ Novo grupo"
+                        Command="{Binding OpenNewGroupModalCommand}" />
+                </CollectionView.Footer>
+
             </CollectionView>
+
+
             <!--#endregion-->
 
         </VerticalStackLayout>
 
         <!--Rodapé-->
-        <HorizontalStackLayout
+        <CollectionView
             Grid.Row="1"
-            Spacing="10"
-            Padding="10">
+            ItemsSource="{Binding Boards}"
+            Margin="10,0,10,10"
+            HorizontalScrollBarVisibility="Never">
 
-            <Button
-                Style="{StaticResource tabButtonStyle}"
-                Text="Board 1"
-                Command="{Binding SelectBoardCommand}"
-                CommandParameter="0" />
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Horizontal"
+                                   ItemSpacing="10"
+                                   />
+            </CollectionView.ItemsLayout>
 
-            <Button
-                Style="{StaticResource tabButtonStyle}"
-                Text="Board 2"
-                Command="{Binding SelectBoardCommand}"
-                CommandParameter="1" />
-
-            <Button
-                Style="{StaticResource tabButtonStyle}"
-                Text="+ Novo quadro"
-                Command="{Binding AddBoardCommand}" />
-
-        </HorizontalStackLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="viewmodels:BoardViewModel">
+                    <Button
+                        Style="{StaticResource tabButtonStyle}"
+                        Text="{Binding Board.Title,
+                        Converter={StaticResource TruncateStringConverter},
+                        ConverterParameter=20}"
+                        Command="{Binding SelectBoardCommand}"
+                        CommandParameter="0" />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.Footer>
+                <Button
+                    Style="{StaticResource tabButtonStyle}"
+                    Text="+ Novo quadro"
+                    Command="{Binding AddBoardCommand}" />
+            </CollectionView.Footer>
+        </CollectionView>
     </Grid>
 </ContentPage>

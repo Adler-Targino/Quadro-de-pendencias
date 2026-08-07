@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Quadro_de_pendencias.Models
+﻿namespace Quadro_de_pendencias.Models
 {
     public class CardAttachmentModel
     {

@@ -1,20 +1,12 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System.Collections.ObjectModel;
-
-namespace Quadro_de_pendencias.Models
+﻿namespace Quadro_de_pendencias.Models
 {
-    public partial class BoardModel : ObservableObject
+    public class BoardModel
     {
-        [ObservableProperty]
-        public partial Guid Id { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; } = Guid.NewGuid();
+        public string Title { get; set; } = "Meu quadro de pendências";
+        public string Description { get; set; } = "Descrição do quadro";
 
-        [ObservableProperty]
-        public partial string Title { get; set; } = "Meu quadro de pendências";
-
-        [ObservableProperty]
-        public partial string Description { get; set; } = "Descrição do quadro";
-
-        public ObservableCollection<CardGroupModel> Groups { get; } = [];
-        public ObservableCollection<CardModel> Cards { get; } = [];
+        public List<GroupModel> Groups { get; } = [];
+        public List<CardModel> Cards { get; } = [];
     }
 }

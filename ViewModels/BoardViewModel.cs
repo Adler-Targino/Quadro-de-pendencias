@@ -2,25 +2,27 @@
 using CommunityToolkit.Mvvm.Input;
 using Quadro_de_pendencias.Interfaces;
 using Quadro_de_pendencias.Models;
+using Quadro_de_pendencias.Views.Popups;
 using System.Collections.ObjectModel;
 
 namespace Quadro_de_pendencias.ViewModels
 {
-    public partial class BoardViewModel(IBoardService service) : ObservableObject
+    public partial class BoardViewModel : ObservableObject
     {
         [ObservableProperty]
         public partial BoardModel Board { get; set; }
-        public ObservableCollection<CardGroupViewModel> Groups { get; } = [];
 
-        public async Task InitializeAsync()
+        public ObservableCollection<GroupViewModel> Groups { get; } = [];
+
+        public BoardViewModel(BoardModel board)
         {
-            Board = await service.GetBoardAsync();
-            
+            Board = board;
+
             Groups.Clear();
 
             foreach (var group in Board.Groups)
             {
-                Groups.Add(new CardGroupViewModel(Board, group));
+                Groups.Add(new GroupViewModel(Board, group));
             }
         }
     }

@@ -5,18 +5,18 @@ namespace Quadro_de_pendencias.Services
 {
     public class BoardStorageService : IBoardService
     {
-        public async Task<BoardModel> GetBoardAsync()
+        public async Task<List<BoardModel>> GetAllBoardsAsync()
         {
-            var board = new BoardModel();
+            var board1 = new BoardModel();
 
             Guid auxGuid = Guid.NewGuid();
-            board.Groups.Add(new CardGroupModel
+            board1.Groups.Add(new GroupModel
             {
                 Id = auxGuid,
                 Name = "Aguardando Cliente"
             });
 
-            board.Cards.Add(new CardModel
+            board1.Cards.Add(new CardModel
             {
                 GroupId = auxGuid,
                 Title = $"Card {auxGuid}",
@@ -24,13 +24,13 @@ namespace Quadro_de_pendencias.Services
             });
             auxGuid = Guid.NewGuid();
 
-            board.Groups.Add(new CardGroupModel
+            board1.Groups.Add(new GroupModel
             {
                 Id = auxGuid,
                 Name = "Pendentes"
             });
 
-            board.Cards.Add(new CardModel
+            board1.Cards.Add(new CardModel
             {
                 GroupId = auxGuid,
                 Title = $"Card {auxGuid}",
@@ -38,20 +38,97 @@ namespace Quadro_de_pendencias.Services
             });
             auxGuid = Guid.NewGuid();
 
-            board.Groups.Add(new CardGroupModel
+            board1.Groups.Add(new GroupModel
             {
                 Id = auxGuid,
                 Name = "Acompanhamento"
             });
 
-            board.Cards.Add(new CardModel
+            board1.Cards.Add(new CardModel
             {
                 GroupId = auxGuid,
                 Title = $"Card {auxGuid}",
                 Description = "Description"
             });
 
-            return board;
+
+            var board2 = new BoardModel();
+
+            board2.Title = "Board2";
+            board2.Description = "Description2";
+
+            board2.Groups.Add(new GroupModel
+            {
+                Id = auxGuid,
+                Name = "Aguardando Cliente"
+            });
+
+            board2.Cards.Add(new CardModel
+            {
+                GroupId = auxGuid,
+                Title = $"Card {auxGuid}",
+                Description = "Description"
+            });
+            auxGuid = Guid.NewGuid();
+
+            board2.Groups.Add(new GroupModel
+            {
+                Id = auxGuid,
+                Name = "Pendentes"
+            });
+
+            board2.Cards.Add(new CardModel
+            {
+                GroupId = auxGuid,
+                Title = $"Card {auxGuid}",
+                Description = "Description"
+            });
+            auxGuid = Guid.NewGuid();
+
+            board2.Groups.Add(new GroupModel
+            {
+                Id = auxGuid,
+                Name = "Acompanhamento"
+            });
+
+            board2.Cards.Add(new CardModel
+            {
+                GroupId = auxGuid,
+                Title = $"Card {auxGuid}",
+                Description = "Description"
+            });
+
+            var boards = new List<BoardModel>();
+
+            boards.Add(board1);
+            boards.Add(board2);
+
+            //boards.Add(board1);
+            //boards.Add(board2);
+
+            //boards.Add(board1);
+            //boards.Add(board2);
+
+            //boards.Add(board1);
+            //boards.Add(board2);
+
+            //boards.Add(board1);
+            //boards.Add(board2);
+
+            //boards.Add(board1);
+            //boards.Add(board2);
+
+            return boards;
+        }
+
+        public async Task<BoardModel> CreateGroupAsync(GroupModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<BoardModel> CreateBoardAsync(BoardModel model)
+        {
+            throw new NotImplementedException();
         }
     }
 }

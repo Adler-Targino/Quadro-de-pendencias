@@ -3,6 +3,8 @@ using Microsoft.Extensions.Logging;
 using Quadro_de_pendencias.Interfaces;
 using Quadro_de_pendencias.Services;
 using Quadro_de_pendencias.ViewModels;
+using Quadro_de_pendencias.Views.Popups;
+using IPopupHelperService = Quadro_de_pendencias.Interfaces.IPopupHelperService;
 
 namespace Quadro_de_pendencias
 {
@@ -23,10 +25,19 @@ namespace Quadro_de_pendencias
 
             // Services
             builder.Services.AddSingleton<IBoardService, BoardStorageService>();
+            builder.Services.AddSingleton<IPopupHelperService, PopupService>();
+
+            //Popups
+            builder.Services.AddTransient<NewBoardPopup>();
+            builder.Services.AddTransient<NewGroupPopup>();
 
             // ViewModels
+            builder.Services.AddTransient<MainPageViewModel>();
             builder.Services.AddTransient<BoardViewModel>();
-            builder.Services.AddTransient<CardGroupViewModel>();
+            builder.Services.AddTransient<GroupViewModel>();
+            builder.Services.AddTransient<NewBoardPopupViewModel>();
+            builder.Services.AddTransient<NewGroupPopupViewModel>();
+
 #if DEBUG
             builder.Logging.AddDebug();
 #endif

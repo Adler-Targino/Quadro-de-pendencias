@@ -3,7 +3,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
 
-    <!--Font sizes-->
+    <!--#region Font Sizes -->
     <x:Double x:Key="baseFs">15</x:Double>
     <x:Double x:Key="boardTitleFs">30</x:Double>
     <x:Double x:Key="boardDescriptionFs">15</x:Double>
@@ -13,8 +13,10 @@
     <x:Double x:Key="cardTitleFs">13</x:Double>
     <x:Double x:Key="cardDescriptionFs">12</x:Double>
     <x:Double x:Key="cardDateFs">11</x:Double>
+    <x:Double x:Key="popupTitleFs">22</x:Double>
+    <!--#endregion-->
 
-    <!--Color variables-->
+    <!--#region Color Variants -->
     <Color x:Key="darkTextColor">#B39DDB</Color>
     <Color x:Key="lightTextColor">#3F2A56</Color>
     <Color x:Key="lightBorderStrokeColor">#EEE6FA</Color>
@@ -23,9 +25,17 @@
     <toolkit:AppThemeColor Light="{StaticResource lightBorderStrokeColor}" Dark="{StaticResource OffBlack}" x:Key="borderDynamicStrokeColor" />
     <toolkit:AppThemeColor Light="White" Dark="#19191a" x:Key="groupDynamicBackgroundColor" />
     <toolkit:AppThemeColor Light="{StaticResource OffWhite}" Dark="{StaticResource OffBlack}" x:Key="cardDynamicBackgroundColor" />
+    <!--#endregion-->
 
+    <!--#region Images -->
+    <Style x:Key="iconImageStyle" TargetType="Image">
+        <Setter Property="WidthRequest" Value="15"/>
+        <Setter Property="HeightRequest" Value="15"/>
+        <Setter Property="Aspect" Value="AspectFit"/>
+    </Style>
+    <!--#endregion-->
 
-    <!--Labels-->
+    <!--#region Labels -->
     <Style x:Key="baseLabelStyle" TargetType="Label">
         <Setter Property="FontSize" Value="{StaticResource baseFs}" />
     </Style>
@@ -67,7 +77,46 @@
         <Setter Property="TextColor" Value="Gray"/>
     </Style>
 
-    <!--Border-->
+    <Style x:Key="popupTitleLabelStyle" TargetType="Label">
+        <Setter Property="TextColor" Value="{toolkit:AppThemeResource labelDynamicTextColor}" />
+        <Setter Property="FontSize" Value="{StaticResource popupTitleFs}"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+    </Style>
+
+    <Style x:Key="popupEntryLabelStyle" TargetType="Label">
+        <Setter Property="FontSize" Value="{StaticResource baseFs}"/>
+        <Setter Property="FontAttributes" Value="Bold"/>
+    </Style>
+    <!--#endregion-->
+
+    <!--#region Borders -->
+
+    <Style x:Key="borderHover" TargetType="Border">
+        <Setter Property="Padding" Value="2"/>
+        <Setter Property="StrokeThickness" Value="0"/>
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup Name="CommonStates">
+
+                    <VisualState Name="Normal"/>
+
+                    <VisualState Name="PointerOver">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="0.8"/>
+                        </VisualState.Setters>
+                    </VisualState>
+
+                    <VisualState Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="0.6"/>
+                        </VisualState.Setters>
+                    </VisualState>
+
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
     <Style x:Key="groupBorderStyle" TargetType="Border">
         <Setter Property="WidthRequest" Value="320"/>
         <Setter Property="Padding" Value="10"/>
@@ -90,22 +139,64 @@
         </Setter>
     </Style>
 
-    <!--Buttons-->
-    <Style x:Key="tabButtonStyle" TargetType="Button">
+    <Style x:Key="popupBorderStyle" TargetType="Border">
+        <Setter Property="Padding" Value="20"/>
+        <Setter Property="BackgroundColor" Value="{toolkit:AppThemeResource cardDynamicBackgroundColor}"/>
+        <Setter Property="WidthRequest" Value="450"/>
+        <Setter Property="StrokeShape">
+            <RoundRectangle CornerRadius="10"/>
+        </Setter>
+    </Style>
+    <!--#endregion-->
+
+    <!--#region Buttons -->
+    <Style x:Key="baseButtonStyle" TargetType="Button">
+        <Setter Property="CornerRadius" Value="5"/>
+        <Setter Property="Padding" Value="12,8"/>
+        <Setter Property="FontSize" Value="{StaticResource baseFs}"/>
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup Name="CommonStates">
+
+                    <VisualState Name="Normal"/>
+
+                    <VisualState Name="PointerOver">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="0.8"/>
+                        </VisualState.Setters>
+                    </VisualState>
+
+                    <VisualState Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="0.6"/>
+                        </VisualState.Setters>
+                    </VisualState>
+
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <Style x:Key="tabButtonStyle" TargetType="Button" BasedOn="{StaticResource baseButtonStyle}">
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="BorderColor" Value="{toolkit:AppThemeResource labelDynamicTextColor}"/>
         <Setter Property="BorderWidth" Value="1"/>
-        <Setter Property="CornerRadius" Value="5"/>
-        <Setter Property="Padding" Value="12,8"/>
         <Setter Property="TextColor" Value="{toolkit:AppThemeResource labelDynamicTextColor}"/>
         <Setter Property="FontAttributes" Value="Bold"/>
-        <Setter Property="FontSize" Value="{StaticResource baseFs}"/>
     </Style>
 
-    <Style x:Key="newCardButtonStyle" TargetType="Button">
+    <Style x:Key="newCardButtonStyle" TargetType="Button" BasedOn="{StaticResource baseButtonStyle}">
         <Setter Property="BackgroundColor" Value="Transparent" />
-        <Setter Property="Padding" Value="12,8"/>
         <Setter Property="TextColor" Value="{toolkit:AppThemeResource labelDynamicTextColor}"/>
-        <Setter Property="FontSize" Value="{StaticResource baseFs}"/>
     </Style>
+
+    <Style x:Key="newGroupButtonStyle" TargetType="Button" BasedOn="{StaticResource baseButtonStyle}">
+        <Setter Property="BackgroundColor" Value="{toolkit:AppThemeResource groupDynamicBackgroundColor}" />
+        <Setter Property="TextColor" Value="{toolkit:AppThemeResource labelDynamicTextColor}"/>
+        <Setter Property="WidthRequest" Value="320"/>
+        <Setter Property="HeightRequest" Value="50"/>
+        <Setter Property="VerticalOptions" Value="Start"/>
+    </Style>
+    <!--#endregion-->
+
 </ResourceDictionary>

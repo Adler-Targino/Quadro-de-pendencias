@@ -7,5 +7,7 @@
         public string Name { get; set; } = "";
         public string Color { get; set; } = "#6C63FF";
         public int Order { get; set; }
+
+        public List<CardModel> Cards { get; set; } = [];
     }
 }

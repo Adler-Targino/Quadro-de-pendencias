@@ -7,6 +7,5 @@
         public string Description { get; set; } = "Descrição do quadro";
 
         public List<GroupModel> Groups { get; } = [];
-        public List<CardModel> Cards { get; } = [];
     }
 }

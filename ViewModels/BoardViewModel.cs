@@ -22,7 +22,7 @@ namespace Quadro_de_pendencias.ViewModels
 
             foreach (var group in Board.Groups)
             {
-                Groups.Add(new GroupViewModel(Board, group));
+                Groups.Add(new GroupViewModel(group));
             }
         }
     }

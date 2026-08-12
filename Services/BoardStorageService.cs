@@ -11,47 +11,57 @@ namespace Quadro_de_pendencias.Services
             board1.Id = Guid.Parse("5bc1a716-dddb-45fc-863f-465c9a4e18eb");
 
             Guid auxGuid = Guid.NewGuid();
+            List<CardModel> Cards = new List<CardModel>();
+            
+            Cards.Add(new CardModel
+            {
+                GroupId = auxGuid,
+                Title = $"Card 1 {auxGuid}",
+                Description = "Description"
+            });
+
             board1.Groups.Add(new GroupModel
             {
                 Id = auxGuid,
-                Name = "Aguardando Cliente"
+                Name = "Aguardando Cliente",
+                Cards = Cards
             });
 
-            board1.Cards.Add(new CardModel
-            {
-                GroupId = auxGuid,
-                Title = $"Card {auxGuid}",
-                Description = "Description"
-            });
+            Cards.Clear();
+
             auxGuid = Guid.NewGuid();
 
             board1.Groups.Add(new GroupModel
             {
                 Id = auxGuid,
-                Name = "Pendentes"
+                Name = "Pendentes",
+                Cards = Cards
             });
 
-            board1.Cards.Add(new CardModel
+            Cards.Clear();
+
+            Cards.Add(new CardModel
             {
                 GroupId = auxGuid,
-                Title = $"Card {auxGuid}",
+                Title = $"Card 2 {auxGuid}",
                 Description = "Description"
             });
+
             auxGuid = Guid.NewGuid();
+
+            Cards.Add(new CardModel
+            {
+                GroupId = auxGuid,
+                Title = $"Card 3 {auxGuid}",
+                Description = "Description"
+            });
 
             board1.Groups.Add(new GroupModel
             {
                 Id = auxGuid,
-                Name = "Acompanhamento"
+                Name = "Acompanhamento",
+                Cards = Cards
             });
-
-            board1.Cards.Add(new CardModel
-            {
-                GroupId = auxGuid,
-                Title = $"Card {auxGuid}",
-                Description = "Description"
-            });
-
 
             var board2 = new BoardModel();
 
@@ -65,12 +75,6 @@ namespace Quadro_de_pendencias.Services
                 Name = "Aguardando Cliente"
             });
 
-            board2.Cards.Add(new CardModel
-            {
-                GroupId = auxGuid,
-                Title = $"Card {auxGuid}",
-                Description = "Description"
-            });
             auxGuid = Guid.NewGuid();
 
             board2.Groups.Add(new GroupModel
@@ -79,12 +83,6 @@ namespace Quadro_de_pendencias.Services
                 Name = "Pendentes"
             });
 
-            board2.Cards.Add(new CardModel
-            {
-                GroupId = auxGuid,
-                Title = $"Card {auxGuid}",
-                Description = "Description"
-            });
             auxGuid = Guid.NewGuid();
 
             board2.Groups.Add(new GroupModel
@@ -93,12 +91,6 @@ namespace Quadro_de_pendencias.Services
                 Name = "Acompanhamento"
             });
 
-            board2.Cards.Add(new CardModel
-            {
-                GroupId = auxGuid,
-                Title = $"Card {auxGuid}",
-                Description = "Description"
-            });
 
             var boards = new List<BoardModel>();
 

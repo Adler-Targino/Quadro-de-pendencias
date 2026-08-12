@@ -11,11 +11,11 @@ namespace Quadro_de_pendencias.ViewModels
 
         public ObservableCollection<CardModel> Cards { get; } = [];
 
-        public GroupViewModel(BoardModel board, GroupModel group)
+        public GroupViewModel(GroupModel group)
         {
             Group = group;
 
-            foreach (var card in board.Cards.Where(c => c.GroupId == group.Id))
+            foreach (var card in Group.Cards)
             {
                 Cards.Add(card);
             }

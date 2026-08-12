@@ -139,6 +139,11 @@
                                     ItemsSource="{Binding Cards}"
                                     SelectionMode="None">
 
+                                    <CollectionView.ItemsLayout>
+                                        <LinearItemsLayout Orientation="Vertical"
+                                                           ItemSpacing="5"/>
+                                    </CollectionView.ItemsLayout>
+
                                     <CollectionView.ItemTemplate>
                                         <DataTemplate
                                             x:DataType="models:CardModel">

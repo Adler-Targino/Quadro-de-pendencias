@@ -57,6 +57,8 @@ namespace Quadro_de_pendencias.ViewModels
                 return;
 
             await _service.CreateBoardAsync(result);
+
+            await InitializeAsync();
         }
 
         [RelayCommand]
@@ -70,26 +72,29 @@ namespace Quadro_de_pendencias.ViewModels
             result.BoardId = Board.Board.Id;
 
             await _service.CreateGroupAsync(result);
+
+            Board.Groups.Add(new GroupViewModel(result));
         }
 
         [RelayCommand]
         private async Task OpenNewCardModal(Guid groupId)
         {
-            var result = await _popupService.ShowAsync<NewCardPopup, NewCardPopupViewModel?>();
+            var result = await _popupService.ShowAsync<NewCardPopup, CardModel?>();
 
             if (result is null)
                 return;
 
-            var card = new CardModel
-            {
-                GroupId = groupId,
-                Title = result.Title,
-                Description = result.Description,
-                DueDate = result.DueDate,
-                Priority = result.Priority,
-            };
+            result.GroupId = groupId;
 
-            await _service.CreateCardAsync(card);
+            await _service.CreateCardAsync(result);
+
+            var group = Board.Groups
+                             .FirstOrDefault(x => x.Group.Id == groupId);
+
+            if (group is null)
+                return;
+
+            group.Cards.Add(result);
         }
     }
 }

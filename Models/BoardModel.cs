@@ -3,9 +3,12 @@
     public class BoardModel
     {
         public Guid Id { get; set; } = Guid.NewGuid();
+
         public string Title { get; set; } = "Meu quadro de pendências";
         public string Description { get; set; } = "Descrição do quadro";
 
-        public List<GroupModel> Groups { get; } = [];
+        public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+        public List<GroupModel> Groups { get; set; } = [];
     }
 }

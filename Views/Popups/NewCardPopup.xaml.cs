@@ -4,7 +4,7 @@ using Quadro_de_pendencias.ViewModels;
 
 namespace Quadro_de_pendencias.Views.Popups;
 
-public partial class NewCardPopup : Popup<NewCardPopupViewModel?>
+public partial class NewCardPopup : Popup<CardModel?>
 {
 	public NewCardPopup(NewCardPopupViewModel viewModel)
 	{
@@ -14,7 +14,7 @@ public partial class NewCardPopup : Popup<NewCardPopupViewModel?>
         viewModel.RequestClose += OnRequestClose;
     }
 
-    private async void OnRequestClose(object? sender, NewCardPopupViewModel? result)
+    private async void OnRequestClose(object? sender, CardModel? result)
     {
         if (BindingContext is NewCardPopupViewModel vm)
             vm.RequestClose -= OnRequestClose;

@@ -5,7 +5,10 @@ namespace Quadro_de_pendencias.Models
     public class CardModel
     {
         public Guid Id { get; set; } = Guid.NewGuid();
+
         public Guid GroupId { get; set; }
+        public GroupModel Group { get; set; } = null!;
+
         public string Title { get; set; } = "";
         public string? Description { get; set; }
         public DateTime? DueDate { get; set; }

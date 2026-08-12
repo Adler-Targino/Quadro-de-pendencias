@@ -7,7 +7,7 @@
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:models="clr-namespace:Quadro_de_pendencias.Models"
     xmlns:viewmodels="clr-namespace:Quadro_de_pendencias.ViewModels"
-    x:TypeArguments="viewmodels:NewCardPopupViewModel"
+    x:TypeArguments="models:CardModel"
     BackgroundColor="Transparent"
     Padding="0"
     >

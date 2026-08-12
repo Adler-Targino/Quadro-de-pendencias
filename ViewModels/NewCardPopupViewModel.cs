@@ -21,7 +21,7 @@ namespace Quadro_de_pendencias.ViewModels
         [ObservableProperty]
         public partial CardPriority Priority { get; set; } = CardPriority.Normal;
 
-        public event EventHandler<NewCardPopupViewModel?>? RequestClose;
+        public event EventHandler<CardModel?>? RequestClose;
 
         public async Task InitializeAsync()
         {
@@ -30,7 +30,7 @@ namespace Quadro_de_pendencias.ViewModels
         [RelayCommand]
         private void Save()
         {
-            var result = new NewCardPopupViewModel
+            var result = new CardModel
             {
                 Title = Title,
                 Description = Description,

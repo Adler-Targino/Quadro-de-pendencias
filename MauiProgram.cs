@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Maui;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Quadro_de_pendencias.Data;
 using Quadro_de_pendencias.Interfaces;
 using Quadro_de_pendencias.Services;
 using Quadro_de_pendencias.ViewModels;
@@ -22,6 +24,10 @@ namespace Quadro_de_pendencias
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            //SQLite
+            var dbPath = Path.Combine(FileSystem.AppDataDirectory, "pendencias.db3");
+            builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite($"Data Source={dbPath}"));
+            builder.Services.AddScoped<DatabaseService>();
 
             // Services
             builder.Services.AddSingleton<IBoardService, BoardStorageService>();

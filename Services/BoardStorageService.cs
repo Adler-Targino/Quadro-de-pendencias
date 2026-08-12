@@ -8,6 +8,7 @@ namespace Quadro_de_pendencias.Services
         public async Task<List<BoardModel>> GetAllBoardsAsync()
         {
             var board1 = new BoardModel();
+            board1.Id = Guid.Parse("5bc1a716-dddb-45fc-863f-465c9a4e18eb");
 
             Guid auxGuid = Guid.NewGuid();
             board1.Groups.Add(new GroupModel
@@ -54,6 +55,7 @@ namespace Quadro_de_pendencias.Services
 
             var board2 = new BoardModel();
 
+            board2.Id = Guid.Parse("5bc1a716-dddb-45fc-863f-465c9a4e18ec");
             board2.Title = "Board2";
             board2.Description = "Description2";
 
@@ -103,30 +105,20 @@ namespace Quadro_de_pendencias.Services
             boards.Add(board1);
             boards.Add(board2);
 
-            //boards.Add(board1);
-            //boards.Add(board2);
-
-            //boards.Add(board1);
-            //boards.Add(board2);
-
-            //boards.Add(board1);
-            //boards.Add(board2);
-
-            //boards.Add(board1);
-            //boards.Add(board2);
-
-            //boards.Add(board1);
-            //boards.Add(board2);
-
             return boards;
         }
 
-        public async Task<BoardModel> CreateGroupAsync(GroupModel model)
+        public async Task CreateBoardAsync(BoardModel model)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<BoardModel> CreateBoardAsync(BoardModel model)
+        public async Task CreateGroupAsync(GroupModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task CreateCardAsync(CardModel model)
         {
             throw new NotImplementedException();
         }

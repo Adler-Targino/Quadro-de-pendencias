@@ -55,6 +55,7 @@
             <!--#region Área de grupos -->
             <CollectionView
                 ItemsSource="{Binding Board.Groups}"
+                HorizontalOptions="Start"
                 HorizontalScrollBarVisibility="Always">
 
                 <CollectionView.ItemsLayout>
@@ -231,8 +232,9 @@
                                     Grid.Row="3"
                                     Style="{StaticResource newCardButtonStyle}"
                                     Text="+ Novo card"
-                                    Command="{Binding AddCardCommand}"
-                                    CommandParameter="0" />
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
+                                    Path=BindingContext.OpenNewCardModalCommand}"
+                                    CommandParameter="{Binding Group.Id}" />
                             </Grid>
 
                         </Border>
@@ -258,11 +260,12 @@
             Grid.Row="1"
             ItemsSource="{Binding Boards}"
             Margin="10,0,10,10"
+            HorizontalOptions="Start"
             HorizontalScrollBarVisibility="Never">
 
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Horizontal"
-                                   ItemSpacing="10"
+                                   ItemSpacing="5"
                                    />
             </CollectionView.ItemsLayout>
 
@@ -273,15 +276,16 @@
                         Text="{Binding Board.Title,
                         Converter={StaticResource TruncateStringConverter},
                         ConverterParameter=20}"
-                        Command="{Binding SelectBoardCommand}"
-                        CommandParameter="0" />
+                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
+                        Path=BindingContext.SelectBoardCommand}"
+                        CommandParameter="{Binding Board.Id}" />
                 </DataTemplate>
             </CollectionView.ItemTemplate>
             <CollectionView.Footer>
                 <Button
                     Style="{StaticResource tabButtonStyle}"
                     Text="+ Novo quadro"
-                    Command="{Binding AddBoardCommand}" />
+                    Command="{Binding OpenNewBoardModalCommand}" />
             </CollectionView.Footer>
         </CollectionView>
     </Grid>

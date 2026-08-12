@@ -30,13 +30,16 @@ namespace Quadro_de_pendencias
             //Popups
             builder.Services.AddTransient<NewBoardPopup>();
             builder.Services.AddTransient<NewGroupPopup>();
+            builder.Services.AddTransient<NewCardPopup>();
 
             // ViewModels
             builder.Services.AddTransient<MainPageViewModel>();
             builder.Services.AddTransient<BoardViewModel>();
             builder.Services.AddTransient<GroupViewModel>();
+            builder.Services.AddTransient<CardViewModel>();
             builder.Services.AddTransient<NewBoardPopupViewModel>();
             builder.Services.AddTransient<NewGroupPopupViewModel>();
+            builder.Services.AddTransient<NewCardPopupViewModel>();
 
 #if DEBUG
             builder.Logging.AddDebug();

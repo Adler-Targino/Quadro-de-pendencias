@@ -6,7 +6,8 @@ namespace Quadro_de_pendencias.Interfaces
     public interface IBoardService
     {
         Task<List<BoardModel>> GetAllBoardsAsync();
-        Task<BoardModel> CreateGroupAsync(GroupModel model);
-        Task<BoardModel> CreateBoardAsync(BoardModel model);
+        Task CreateGroupAsync(GroupModel model);
+        Task CreateBoardAsync(BoardModel model);
+        Task CreateCardAsync(CardModel model);
     }
 }

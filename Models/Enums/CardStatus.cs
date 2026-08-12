@@ -4,7 +4,7 @@
     {
         Pending,
         Waiting,
-        Done,
+        Completed,
         Archived
     }
 }

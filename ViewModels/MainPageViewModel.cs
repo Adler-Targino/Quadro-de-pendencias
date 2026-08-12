@@ -25,7 +25,7 @@ namespace Quadro_de_pendencias.ViewModels
         public string Description => Board.Board.Description;
 
 
-        public async Task InitializeAsync()
+        public async Task InitializeAsync(Guid? boardId = null)
         {
             var boards = await _service.GetAllBoardsAsync();
 
@@ -36,29 +36,60 @@ namespace Quadro_de_pendencias.ViewModels
                 Boards.Add(new BoardViewModel(board));
             }
 
-            Board = Boards.FirstOrDefault();
+            if (boardId == null)
+                Board = Boards.First();
+            else
+                Board = Boards.First(x => x.Board.Id == boardId);
         }
 
         [RelayCommand]
-        private async Task OpenNewGroupModal()
+        private async Task SelectBoard(Guid boardId)
         {
-            var result = await _popupService.ShowAsync<NewGroupPopup, GroupModel>();
-
-            if (result is null)
-                return;
-
-            await _service.CreateGroupAsync(result);
+            await InitializeAsync(boardId);
         }
 
         [RelayCommand]
         private async Task OpenNewBoardModal()
         {
-            var result = await _popupService.ShowAsync<NewBoardPopup, BoardModel>();
+            var result = await _popupService.ShowAsync<NewBoardPopup, BoardModel?>();
 
             if (result is null)
                 return;
 
             await _service.CreateBoardAsync(result);
+        }
+
+        [RelayCommand]
+        private async Task OpenNewGroupModal()
+        {
+            var result = await _popupService.ShowAsync<NewGroupPopup, GroupModel?>();
+
+            if (result is null)
+                return;
+
+            result.BoardId = Board.Board.Id;
+
+            await _service.CreateGroupAsync(result);
+        }
+
+        [RelayCommand]
+        private async Task OpenNewCardModal(Guid groupId)
+        {
+            var result = await _popupService.ShowAsync<NewCardPopup, NewCardPopupViewModel?>();
+
+            if (result is null)
+                return;
+
+            var card = new CardModel
+            {
+                GroupId = groupId,
+                Title = result.Title,
+                Description = result.Description,
+                DueDate = result.DueDate,
+                Priority = result.Priority,
+            };
+
+            await _service.CreateCardAsync(card);
         }
     }
 }

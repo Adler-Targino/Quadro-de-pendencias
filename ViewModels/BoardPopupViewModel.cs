@@ -4,12 +4,15 @@ using Quadro_de_pendencias.Models;
 
 namespace Quadro_de_pendencias.ViewModels
 {
-    public partial class NewGroupPopupViewModel() : ObservableObject
+    public partial class BoardPopupViewModel() : ObservableObject
     {
         [ObservableProperty]
-        public partial string Name { get; set; } = string.Empty;
+        public partial string Title { get; set; } = string.Empty;
 
-        public event EventHandler<GroupModel?>? RequestClose;
+        [ObservableProperty]
+        public partial string Description { get; set; } = string.Empty;
+
+        public event EventHandler<BoardModel?>? RequestClose;
 
         public async Task InitializeAsync()
         {
@@ -18,9 +21,10 @@ namespace Quadro_de_pendencias.ViewModels
         [RelayCommand]
         private void Save()
         {
-            var result = new GroupModel
+            var result = new BoardModel
             {
-                Name = Name
+                Title = Title,
+                Description = Description,
             };
 
             RequestClose?.Invoke(this, result);

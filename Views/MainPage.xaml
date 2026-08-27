@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Quadro_de_pendencias.Views.MainPage"
+             x:Name="Home"
              xmlns:viewmodels="clr-namespace:Quadro_de_pendencias.ViewModels"
              xmlns:models="clr-namespace:Quadro_de_pendencias.Models"
              xmlns:converters="clr-namespace:Quadro_de_pendencias.Converters"
@@ -10,30 +11,98 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:TruncateStringConverter x:Key="TruncateStringConverter" />
+            <converters:InvertBoolConverter x:Key="InvertBoolConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="*,Auto">
-        <VerticalStackLayout
+    <Grid
+        RowDefinitions="*,Auto">
+        <Grid
+            Grid.Row="0"
+            RowDefinitions="Auto,*"
             Padding="30,0"
-            Spacing="15">
+            RowSpacing="15">
 
             <!--#region Cabeçalho -->
             <Grid
+                Grid.Row="0"
                 RowDefinitions="Auto, Auto"
                 ColumnDefinitions="*, Auto">
 
-                <Label
+                <Grid
                     Grid.Row="0"
-                    Grid.ColumnSpan="2"
-                    Style="{StaticResource boardTitleLabelStyle}"
-                    Text="{Binding Title}"/>
+                    Grid.Column="0">
 
-                <Label
+                    <Label
+                        Text="{Binding Title}"
+                        Style="{StaticResource boardTitleLabelStyle}"
+                        IsVisible="{Binding IsEditingTitle, Converter={StaticResource InvertBoolConverter}}">
+
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding EditBoardTitleCommand}" />
+                        </Label.GestureRecognizers>
+
+                    </Label>
+
+                    <Entry
+                        Text="{Binding Title}"
+                        Style="{StaticResource boardTitleLabelStyle}"
+                        IsVisible="{Binding IsEditingTitle}"
+                        ReturnType="Done">
+
+                        <Entry.Behaviors>
+                            <toolkit:EventToCommandBehavior
+                                EventName="Completed"
+                                Command="{Binding Source={x:Reference Home},
+                                Path=BindingContext.SaveBoardTitleCommand}" />
+                        </Entry.Behaviors>
+
+                    </Entry>
+
+                </Grid>
+
+                <Grid
                     Grid.Row="1"
-                    Grid.Column="0"
-                    Style="{StaticResource boardDescriptionLabelStyle}"
-                    Text="{Binding Description}"/>
+                    Grid.Column="0">
+
+                    <Label
+                        Text="{Binding Description}"
+                        Style="{StaticResource boardDescriptionLabelStyle}"
+                        IsVisible="{Binding IsEditingDescription, Converter={StaticResource InvertBoolConverter}}">
+
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding EditBoardDescriptionCommand}" />
+                        </Label.GestureRecognizers>
+
+                    </Label>
+
+                    <Entry
+                        Text="{Binding Description}"
+                        Style="{StaticResource boardDescriptionLabelStyle}"
+                        IsVisible="{Binding IsEditingDescription}"
+                        ReturnType="Done">
+
+                        <Entry.Behaviors>
+                            <toolkit:EventToCommandBehavior
+                                EventName="Completed"
+                                Command="{Binding Source={x:Reference Home},
+                                Path=BindingContext.SaveBoardDescriptionCommand}" />
+                        </Entry.Behaviors>
+
+                    </Entry>
+
+                </Grid>
+
+                <Button
+                    Margin="0,15,0,0"
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Style="{StaticResource tabButtonStyle}"
+                    Text="Apagar Quadro"
+                    Command="{Binding DeleteBoardCommand}"
+                    CommandParameter="{Binding Board}"/>
 
                 <HorizontalStackLayout
                     Grid.Row="1"
@@ -54,20 +123,25 @@
 
             <!--#region Área de grupos -->
             <CollectionView
+                Grid.Row="1"
+                Margin="0,0,0,15"
                 ItemsSource="{Binding Board.Groups}"
                 HorizontalOptions="Start"
-                HorizontalScrollBarVisibility="Always">
+                HorizontalScrollBarVisibility="Never">
 
                 <CollectionView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Horizontal"
-                                       ItemSpacing="10"/>
+                    <LinearItemsLayout
+                        Orientation="Horizontal"
+                        ItemSpacing="10"/>
                 </CollectionView.ItemsLayout>
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="viewmodels:GroupViewModel">
                         <Border Style="{StaticResource groupBorderStyle}">
 
-                            <Grid RowDefinitions="4,Auto,*,Auto">
+                            <Grid
+                                RowDefinitions="4,Auto,*,Auto"
+                                VerticalOptions="Start">
 
                                 <BoxView
                                     HeightRequest="4"
@@ -98,7 +172,9 @@
 
                                             <Border.GestureRecognizers>
                                                 <TapGestureRecognizer
-                                                    Command="{Binding DeleteGroupCommand}" />
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
+                                                    Path=BindingContext.DeleteGroupCommand}"
+                                                    CommandParameter="{Binding}" />
                                             </Border.GestureRecognizers>
 
                                             <Image
@@ -137,7 +213,9 @@
                                     Grid.Row="2"
                                     Margin="12,0"
                                     ItemsSource="{Binding Cards}"
-                                    SelectionMode="None">
+                                    SelectionMode="None"
+                                    VerticalScrollBarVisibility="Never"
+                                    VerticalOptions="Start">
 
                                     <CollectionView.ItemsLayout>
                                         <LinearItemsLayout Orientation="Vertical"
@@ -158,6 +236,7 @@
                                                     <CheckBox
                                                         Grid.Row="0"
                                                         Grid.Column="0"
+                                                        Margin="0,-10,-5,-15"
                                                         IsChecked="{Binding Completed}"/>
                                                     <Label
                                                         Grid.Row="0"
@@ -189,7 +268,9 @@
 
                                                             <Border.GestureRecognizers>
                                                                 <TapGestureRecognizer
-                                                                    Command="{Binding EditCommand}" />
+                                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
+                                                                    Path=BindingContext.OpenEditCardModalCommand}"
+                                                                    CommandParameter="{Binding}" />
                                                             </Border.GestureRecognizers>
 
                                                             <Image
@@ -208,7 +289,9 @@
 
                                                             <Border.GestureRecognizers>
                                                                 <TapGestureRecognizer
-                                                                    Command="{Binding EditCommand}" />
+                                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
+                                                                    Path=BindingContext.DeleteCardCommand}"
+                                                                    CommandParameter="{Binding}" />
                                                             </Border.GestureRecognizers>
 
                                                             <Image
@@ -258,13 +341,13 @@
 
             <!--#endregion-->
 
-        </VerticalStackLayout>
+        </Grid>
 
         <!--Rodapé-->
         <CollectionView
             Grid.Row="1"
             ItemsSource="{Binding Boards}"
-            Margin="10,0,10,10"
+            Margin="30,0,10,15"
             HorizontalOptions="Start"
             HorizontalScrollBarVisibility="Never">
 

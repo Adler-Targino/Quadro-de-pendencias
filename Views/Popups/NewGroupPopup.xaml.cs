@@ -6,7 +6,7 @@ namespace Quadro_de_pendencias.Views.Popups;
 
 public partial class NewGroupPopup : Popup<GroupModel?>
 {
-    public NewGroupPopup(NewGroupPopupViewModel viewModel)
+    public NewGroupPopup(GroupPopupViewModel viewModel)
 	{
 		InitializeComponent();
 
@@ -16,7 +16,7 @@ public partial class NewGroupPopup : Popup<GroupModel?>
 
     private async void OnRequestClose(object? sender, GroupModel? result)
     {
-        if (BindingContext is NewGroupPopupViewModel vm)
+        if (BindingContext is GroupPopupViewModel vm)
             vm.RequestClose -= OnRequestClose;
 
         await CloseAsync(result);

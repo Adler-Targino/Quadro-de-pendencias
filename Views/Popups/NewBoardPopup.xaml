@@ -16,7 +16,7 @@
 
         <VerticalStackLayout Spacing="20">
             <Label
-                Text="Novo Grupo"
+                Text="Novo Quadro"
                 Style="{StaticResource popupTitleLabelStyle}"/>
 
             <VerticalStackLayout Spacing="8">

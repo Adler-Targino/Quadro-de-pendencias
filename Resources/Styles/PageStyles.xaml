@@ -10,7 +10,7 @@
     <x:Double x:Key="headerFs">20</x:Double>
     <x:Double x:Key="groupTitleFs">18</x:Double>
     <x:Double x:Key="groupSubtitleFs">12</x:Double>
-    <x:Double x:Key="cardTitleFs">13</x:Double>
+    <x:Double x:Key="cardTitleFs">18</x:Double>
     <x:Double x:Key="cardDescriptionFs">12</x:Double>
     <x:Double x:Key="cardDateFs">11</x:Double>
     <x:Double x:Key="popupTitleFs">22</x:Double>
@@ -63,6 +63,7 @@
     </Style>
 
     <Style x:Key="cardTitleLabelStyle" TargetType="Label">
+        <Setter Property="VerticalOptions" Value="Center" />
         <Setter Property="FontSize" Value="{StaticResource cardTitleFs}" />
         <Setter Property="TextColor" Value="{toolkit:AppThemeResource labelDynamicTextColor}"/>
         <Setter Property="FontAttributes" Value="Bold"/>

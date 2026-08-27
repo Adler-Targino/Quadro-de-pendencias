@@ -5,8 +5,11 @@ using Quadro_de_pendencias.Models.Enums;
 
 namespace Quadro_de_pendencias.ViewModels
 {
-    public partial class NewCardPopupViewModel() : ObservableObject
+    public partial class CardPopupViewModel() : ObservableObject
     {
+        private Guid? _cardId;
+        private Guid _groupId;
+
         [ObservableProperty]
         public partial string Title { get; set; } = string.Empty;
 
@@ -21,10 +24,22 @@ namespace Quadro_de_pendencias.ViewModels
         [ObservableProperty]
         public partial CardPriority Priority { get; set; } = CardPriority.Normal;
 
+        [ObservableProperty]
+        public partial bool IsEditing { get; set; }
+
         public event EventHandler<CardModel?>? RequestClose;
 
-        public async Task InitializeAsync()
+        public void LoadCard(CardModel card)
         {
+            _cardId = card.Id;
+            _groupId = card.GroupId;
+
+            Title = card.Title;
+            Description = card.Description;
+            DueDate = card.DueDate;
+            Priority = card.Priority;
+
+            IsEditing = true;
         }
 
         [RelayCommand]
@@ -32,8 +47,12 @@ namespace Quadro_de_pendencias.ViewModels
         {
             var result = new CardModel
             {
+                Id = _cardId ?? Guid.NewGuid(),
+                GroupId = _groupId,
                 Title = Title,
                 Description = Description,
+                DueDate = DueDate,
+                Priority = Priority,
             };
 
             RequestClose?.Invoke(this, result);

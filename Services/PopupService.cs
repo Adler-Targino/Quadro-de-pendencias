@@ -14,9 +14,14 @@ namespace Quadro_de_pendencias.Services
             _serviceProvider = serviceProvider;
         }
 
-        public async Task<TResult?> ShowAsync<TPopup, TResult>() where TPopup : Popup<TResult>
+        public Task<TResult?> ShowAsync<TPopup, TResult>() where TPopup : Popup<TResult>
+            => ShowAsync<TPopup, TResult>(configure: null);
+
+        public async Task<TResult?> ShowAsync<TPopup, TResult>(Action<TPopup>? configure) where TPopup : Popup<TResult>
         {
             var popup = _serviceProvider.GetRequiredService<TPopup>();
+
+            configure?.Invoke(popup);
 
             var page = Application.Current?.Windows.FirstOrDefault()?.Page;
 

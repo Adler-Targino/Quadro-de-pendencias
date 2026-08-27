@@ -32,6 +32,7 @@ namespace Quadro_de_pendencias
             // Services
             builder.Services.AddSingleton<IBoardService, BoardStorageService>();
             builder.Services.AddSingleton<IPopupHelperService, PopupService>();
+            builder.Services.AddSingleton<IDialogService, DialogService>();
 
             //Popups
             builder.Services.AddTransient<NewBoardPopup>();
@@ -43,9 +44,9 @@ namespace Quadro_de_pendencias
             builder.Services.AddTransient<BoardViewModel>();
             builder.Services.AddTransient<GroupViewModel>();
             builder.Services.AddTransient<CardViewModel>();
-            builder.Services.AddTransient<NewBoardPopupViewModel>();
-            builder.Services.AddTransient<NewGroupPopupViewModel>();
-            builder.Services.AddTransient<NewCardPopupViewModel>();
+            builder.Services.AddTransient<BoardPopupViewModel>();
+            builder.Services.AddTransient<GroupPopupViewModel>();
+            builder.Services.AddTransient<CardPopupViewModel>();
 
 #if DEBUG
             builder.Logging.AddDebug();

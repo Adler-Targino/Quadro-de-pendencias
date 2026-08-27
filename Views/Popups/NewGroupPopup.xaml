@@ -25,6 +25,75 @@
                     Text="{Binding Name}" />
             </VerticalStackLayout>
 
+            <CollectionView
+                ItemsSource="{Binding Colors}"
+                SelectionMode="None"
+                HorizontalScrollBarVisibility="Never">
+
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout
+                        Orientation="Horizontal"
+                        ItemSpacing="12" />
+                </CollectionView.ItemsLayout>
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+
+                        <Border
+                            WidthRequest="35"
+                            HeightRequest="35"
+                            Padding="3"
+                            StrokeThickness="2"
+                            StrokeShape="RoundRectangle 19">
+
+                            <Border.Triggers>
+
+                                <!-- Cor selecionada -->
+                                <DataTrigger
+                                    TargetType="Border"
+                                    Binding="{Binding IsSelected}"
+                                    Value="True">
+
+                                    <Setter
+                                        Property="Stroke"
+                                        Value="{AppThemeBinding Light=Black, Dark=White}" />
+
+                                </DataTrigger>
+
+                                <!-- Cor não selecionada -->
+                                <DataTrigger
+                                    TargetType="Border"
+                                    Binding="{Binding IsSelected}"
+                                    Value="False">
+
+                                    <Setter
+                                        Property="Stroke"
+                                        Value="Transparent" />
+
+                                </DataTrigger>
+
+                            </Border.Triggers>
+
+                            <Border
+                                BackgroundColor="{Binding Color}"
+                                StrokeThickness="0"
+                                StrokeShape="RoundRectangle 15">
+
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type ContentPage}},
+                                        Path=BindingContext.SelectColorCommand}"
+                                        CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+
+                            </Border>
+
+                        </Border>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
             <HorizontalStackLayout
                 HorizontalOptions="End"
                 Spacing="10">

@@ -6,7 +6,7 @@ namespace Quadro_de_pendencias.Views.Popups;
 
 public partial class NewCardPopup : Popup<CardModel?>
 {
-	public NewCardPopup(NewCardPopupViewModel viewModel)
+	public NewCardPopup(CardPopupViewModel viewModel)
 	{
 		InitializeComponent();
 
@@ -16,7 +16,7 @@ public partial class NewCardPopup : Popup<CardModel?>
 
     private async void OnRequestClose(object? sender, CardModel? result)
     {
-        if (BindingContext is NewCardPopupViewModel vm)
+        if (BindingContext is CardPopupViewModel vm)
             vm.RequestClose -= OnRequestClose;
 
         await CloseAsync(result);

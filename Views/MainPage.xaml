@@ -111,7 +111,9 @@
                     VerticalOptions="Center">
                     <CheckBox
                         Scale="0.8"
-                        VerticalOptions="Center" />
+                        VerticalOptions="Center"
+                        IsChecked="{Binding HideCompleted, Mode=TwoWay}"/>
+
                     <Label
                         Text="Ocultar concluídos"
                         Style="{StaticResource cardDescriptionLabelStyle}"
@@ -219,7 +221,7 @@
                                 <CollectionView
                                     Grid.Row="2"
                                     Margin="12,0"
-                                    ItemsSource="{Binding Cards}"
+                                    ItemsSource="{Binding VisibleCards}"
                                     SelectionMode="None"
                                     VerticalScrollBarVisibility="Never"
                                     VerticalOptions="Start">

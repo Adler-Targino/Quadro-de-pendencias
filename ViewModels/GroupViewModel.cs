@@ -15,6 +15,9 @@ namespace Quadro_de_pendencias.ViewModels
         public partial GroupModel Group { get; set; }
 
         public ObservableCollection<CardViewModel> Cards { get; } = [];
+        public ObservableCollection<CardViewModel> VisibleCards { get; } = [];
+
+        public bool HideCompleted { get; set; }
 
         public GroupViewModel(
             IDragDropService dragDropService,
@@ -96,6 +99,19 @@ namespace Quadro_de_pendencias.ViewModels
             else
             {
                 Cards.Move(index, 0);
+            }
+
+            UpdateVisibleCards();
+        }
+
+        public void UpdateVisibleCards()
+        {
+            VisibleCards.Clear();
+
+            foreach (var card in Cards)
+            {
+                if (!HideCompleted || !card.IsChecked)
+                    VisibleCards.Add(card);
             }
         }
     }

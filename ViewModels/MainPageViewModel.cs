@@ -34,7 +34,8 @@ namespace Quadro_de_pendencias.ViewModels
         public partial bool IsEditingDescription { get; set; }
         [ObservableProperty]
         public partial string Description { get; set; }
-
+        [ObservableProperty]
+        public partial bool HideCompleted { get; set; }
 
         public async Task InitializeAsync(Guid? boardId = null)
         {
@@ -51,6 +52,8 @@ namespace Quadro_de_pendencias.ViewModels
                 Board = Boards.First(x => x.Board.Id == boardId);
             else if(Board == null)
                 Board = Boards.First();
+
+            OnHideCompletedChanged(false);
 
             Title = Board.Board.Title;
             Description = Board.Board.Description;
@@ -218,6 +221,15 @@ namespace Quadro_de_pendencias.ViewModels
                 return;
 
             group.Cards.Remove(card);
+        }
+
+        partial void OnHideCompletedChanged(bool value)
+        {
+            foreach (var group in Board.Groups)
+            {
+                group.HideCompleted = value;
+                group.UpdateVisibleCards();
+            }
         }
     }
 }

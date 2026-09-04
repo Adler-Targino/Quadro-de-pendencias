@@ -16,15 +16,18 @@ namespace Quadro_de_pendencias.Services
 
         public async Task<List<BoardModel>> GetAllBoardsAsync()
         {
-            if(!await _db.Boards.AnyAsync())
+            if (!await _db.Boards.AnyAsync())
             {
                 _db.Boards.Add(new BoardModel());
                 await _db.SaveChangesAsync();
             }
 
             return await _db.Boards
-                .Include(board => board.Groups)
-                    .ThenInclude(group => group.Cards)
+                .Include(board => board.Groups
+                    .OrderBy(group => group.Order))
+                        .ThenInclude(group => group.Cards
+                            .OrderBy(card => card.IsCompleted)
+                            .ThenBy(card => card.Order))
                 .AsNoTracking()
                 .OrderBy(board => board.CreatedAt)
                 .ToListAsync();
@@ -102,7 +105,7 @@ namespace Quadro_de_pendencias.Services
         public async Task UpdateCardAsync(CardModel model)
         {
             var entry = await _db.Cards.FindAsync(model.Id);
-            
+
             if (entry is null)
                 return;
 
@@ -111,9 +114,44 @@ namespace Quadro_de_pendencias.Services
             entry.DueDate = model.DueDate;
             entry.Priority = model.Priority;
             entry.Order = model.Order;
+            entry.IsCompleted = model.IsCompleted;
             entry.UpdatedAt = DateTime.Now;
 
             _db.Cards.Update(entry);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task UpdateCardCompletionAsync(CardModel model)
+        {
+            var entry = await _db.Cards.FindAsync(model.Id);
+
+            if (entry is null)
+                return;
+
+            entry.IsCompleted = model.IsCompleted;
+            entry.UpdatedAt = DateTime.Now;
+
+            var cards = await _db.Cards
+                                 .Where(x => x.GroupId == model.GroupId && x.Id != model.Id)
+                                 .OrderBy(x => x.IsCompleted)
+                                 .ThenBy(x => x.Order)
+                                 .ToListAsync();
+
+            if (model.IsCompleted)
+            {
+                entry.Order = cards.Count;
+                cards.Add(entry);
+            }
+            else
+            {
+                cards.Insert(0, entry);
+            }
+
+            for (int i = 0; i < cards.Count; i++)
+            {
+                cards[i].Order = i;
+            }
+
             await _db.SaveChangesAsync();
         }
 

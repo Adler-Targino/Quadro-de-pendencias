@@ -13,9 +13,9 @@ namespace Quadro_de_pendencias.Models
         public string? Description { get; set; }
         public DateTime? DueDate { get; set; }
         public CardPriority Priority { get; set; } = CardPriority.Normal;
-        public CardStatus Status { get; set; } = CardStatus.Pending;
         public int Order { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime? UpdatedAt { get; set; }
+        public bool IsCompleted { get; set; }
     }
 }

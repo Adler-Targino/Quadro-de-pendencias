@@ -14,7 +14,10 @@ namespace Quadro_de_pendencias.ViewModels
 
         public ObservableCollection<GroupViewModel> Groups { get; } = [];
 
-        public BoardViewModel(BoardModel board)
+        public BoardViewModel(
+            IDragDropService dragDropService,
+            IBoardService boardService, 
+            BoardModel board)
         {
             Board = board;
 
@@ -22,7 +25,7 @@ namespace Quadro_de_pendencias.ViewModels
 
             foreach (var group in Board.Groups)
             {
-                Groups.Add(new GroupViewModel(group));
+                Groups.Add(new GroupViewModel(dragDropService, boardService, group));
             }
         }
     }

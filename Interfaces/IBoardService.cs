@@ -14,6 +14,7 @@ namespace Quadro_de_pendencias.Interfaces
         Task RemoveGroupAsync(GroupModel model);
         Task CreateCardAsync(CardModel model);
         Task UpdateCardAsync(CardModel model);
+        Task UpdateCardCompletionAsync(CardModel model);
         Task RemoveCardAsync(CardModel model);
     }
 }

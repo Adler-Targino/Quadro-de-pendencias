@@ -56,10 +56,10 @@ namespace Quadro_de_pendencias.Migrations
                     Description = table.Column<string>(type: "TEXT", nullable: true),
                     DueDate = table.Column<DateTime>(type: "TEXT", nullable: true),
                     Priority = table.Column<int>(type: "INTEGER", nullable: false),
-                    Status = table.Column<int>(type: "INTEGER", nullable: false),
                     Order = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    IsCompleted = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -9,13 +9,15 @@ using System.Collections.ObjectModel;
 namespace Quadro_de_pendencias.ViewModels
 {
     public partial class MainPageViewModel(
-        IBoardService service,
+        IBoardService boardService,
         IDialogService dialogService,
+        IDragDropService dragDropService,
         IPopupHelperService popupService) : ObservableObject
     {
-        private readonly IBoardService _service = service;
-        private readonly IPopupHelperService _popupService = popupService;
+        private readonly IBoardService _boardService = boardService;
         private readonly IDialogService _dialogService = dialogService;
+        private readonly IDragDropService _dragService = dragDropService;
+        private readonly IPopupHelperService _popupService = popupService;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(Title))]
@@ -36,13 +38,13 @@ namespace Quadro_de_pendencias.ViewModels
 
         public async Task InitializeAsync(Guid? boardId = null)
         {
-            var boards = await _service.GetAllBoardsAsync();
+            var boards = await _boardService.GetAllBoardsAsync();
 
             Boards.Clear();
 
             foreach (var board in boards)
             {
-                Boards.Add(new BoardViewModel(board));
+                Boards.Add(new BoardViewModel(_dragService, _boardService, board));
             }
 
             if (boardId != null)
@@ -73,7 +75,7 @@ namespace Quadro_de_pendencias.ViewModels
 
             Board.Board.Title = Title;
 
-            await _service.UpdateBoardAsync(Board.Board);
+            await _boardService.UpdateBoardAsync(Board.Board);
         }
 
         [RelayCommand]
@@ -89,7 +91,7 @@ namespace Quadro_de_pendencias.ViewModels
 
             Board.Board.Description = Description;
 
-            await _service.UpdateBoardAsync(Board.Board);
+            await _boardService.UpdateBoardAsync(Board.Board);
         }
 
         [RelayCommand]
@@ -100,7 +102,7 @@ namespace Quadro_de_pendencias.ViewModels
             if (result is null)
                 return;
 
-            await _service.CreateBoardAsync(result);
+            await _boardService.CreateBoardAsync(result);
 
             await InitializeAsync(result.Id);
         }
@@ -115,7 +117,7 @@ namespace Quadro_de_pendencias.ViewModels
             if (!confirmation)
                 return;
 
-            await _service.RemoveBoardAsync(board.Board);
+            await _boardService.RemoveBoardAsync(board.Board);
 
             Boards.Remove(board);
             Board = null;
@@ -132,9 +134,9 @@ namespace Quadro_de_pendencias.ViewModels
 
             result.BoardId = Board.Board.Id;
 
-            await _service.CreateGroupAsync(result);
+            await _boardService.CreateGroupAsync(result);
 
-            Board.Groups.Add(new GroupViewModel(result));
+            Board.Groups.Add(new GroupViewModel(_dragService, _boardService, result));
         }
 
         [RelayCommand]
@@ -147,7 +149,7 @@ namespace Quadro_de_pendencias.ViewModels
             if (!confirmation)
                 return;
 
-            await _service.RemoveGroupAsync(group.Group);
+            await _boardService.RemoveGroupAsync(group.Group);
 
             Board.Groups.Remove(group);
         }
@@ -162,7 +164,7 @@ namespace Quadro_de_pendencias.ViewModels
 
             result.GroupId = groupId;
 
-            await _service.CreateCardAsync(result);
+            await _boardService.CreateCardAsync(result);
 
             var group = Board.Groups
                              .FirstOrDefault(x => x.Group.Id == groupId);
@@ -170,22 +172,22 @@ namespace Quadro_de_pendencias.ViewModels
             if (group is null)
                 return;
 
-            group.Cards.Add(result);
+            group.Cards.Add(new CardViewModel(_boardService, result));
         }
 
         [RelayCommand]
-        private async Task OpenEditCardModal(CardModel card)
+        private async Task OpenEditCardModal(CardViewModel card)
         {
             var result = await _popupService.ShowAsync<NewCardPopup, CardModel?>(popup =>
             {
                 if (popup.BindingContext is CardPopupViewModel vm)
-                    vm.LoadCard(card);
+                    vm.LoadCard(card.Card);
             });
 
             if (result is null)
                 return;
 
-            await _service.UpdateCardAsync(result);
+            await _boardService.UpdateCardAsync(result);
 
             var group = Board.Groups.FirstOrDefault(x => x.Group.Id == result.GroupId);
 
@@ -194,23 +196,23 @@ namespace Quadro_de_pendencias.ViewModels
 
             var index = group.Cards.IndexOf(card);
             if (index >= 0)
-                group.Cards[index] = result;
+                group.Cards[index] = new CardViewModel(_boardService, result);
         }
 
         [RelayCommand]
-        private async Task DeleteCard(CardModel card)
+        private async Task DeleteCard(CardViewModel card)
         {
             bool confirmation = await _dialogService.ConfirmAsync(
                 "Excluir card",
-                $"Deseja realmente excluir o card \"{card.Title}\"?");
+                $"Deseja realmente excluir o card \"{card.Card.Title}\"?");
 
             if (!confirmation)
                 return;
             
-            await _service.RemoveCardAsync(card);
+            await _boardService.RemoveCardAsync(card.Card);
 
             var group = Board.Groups
-                             .FirstOrDefault(x => x.Group.Id == card.GroupId);
+                             .FirstOrDefault(x => x.Group.Id == card.Card.GroupId);
 
             if (group is null)
                 return;

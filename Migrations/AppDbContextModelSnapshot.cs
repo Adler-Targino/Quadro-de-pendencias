@@ -57,13 +57,13 @@ namespace Quadro_de_pendencias.Migrations
                     b.Property<Guid>("GroupId")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("Order")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Priority")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Status")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")

@@ -33,6 +33,7 @@ namespace Quadro_de_pendencias
             builder.Services.AddSingleton<IBoardService, BoardStorageService>();
             builder.Services.AddSingleton<IPopupHelperService, PopupService>();
             builder.Services.AddSingleton<IDialogService, DialogService>();
+            builder.Services.AddSingleton<IDragDropService, DragDropService>();
 
             //Popups
             builder.Services.AddTransient<NewBoardPopup>();

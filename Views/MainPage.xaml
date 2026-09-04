@@ -209,7 +209,7 @@
                                             Style="{StaticResource groupSubTitleLabelStyle}"
                                             Grid.Row="1"
                                             Grid.Column="1"
-                                            Text=" 10% concluido"
+                                            Text="{Binding CardCompletionPercentage, StringFormat=' {0} concluído'}"
                                             VerticalOptions="Center" />
 
                                     </Grid>

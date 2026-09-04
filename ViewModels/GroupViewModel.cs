@@ -18,6 +18,19 @@ namespace Quadro_de_pendencias.ViewModels
         public ObservableCollection<CardViewModel> VisibleCards { get; } = [];
 
         public bool HideCompleted { get; set; }
+        public string CardCompletionPercentage
+        {
+            get
+            {
+                if (Cards.Count == 0)
+                    return "0%";
+
+                var completed = Cards.Count(x => x.IsChecked);
+                var percentage = (double)completed / Cards.Count * 100;
+
+                return $"{percentage:0}%";
+            }
+        }
 
         public GroupViewModel(
             IDragDropService dragDropService,
@@ -101,6 +114,7 @@ namespace Quadro_de_pendencias.ViewModels
                 Cards.Move(index, 0);
             }
 
+            OnPropertyChanged(nameof(CardCompletionPercentage));
             UpdateVisibleCards();
         }
 
